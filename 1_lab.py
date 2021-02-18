@@ -14,7 +14,6 @@ def intersection(L1, L2):
     D  = L1[0] * L2[1] - L1[1] * L2[0]
     Dx = L1[2] * L2[1] - L1[1] * L2[2]
     Dy = L1[0] * L2[2] - L1[2] * L2[0]
-    ic(L1, L2, D, Dx, Dy)
     if D != 0:
         x = Dx / D
         y = Dy / D
@@ -127,7 +126,7 @@ def main():
             two_surface(a, b, c)
 
         else:
-            sye.exit()
+            sys.exit()
 
 
 
