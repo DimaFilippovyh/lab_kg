@@ -6,7 +6,7 @@ import sys
 def line(p1, p2):
     A = (p1[1] - p2[1])
     B = (p2[0] - p1[0])
-    C = (p1[0]*p2[1] - p2[0]*p1[1])
+    C = (p1[0] * p2[1] - p2[0] * p1[1])
     return A, B, -C
 
 
@@ -39,17 +39,21 @@ def two_lines(a, b, c, d):
         print("Прямые параллельны")
 
 #/////////////////////////////////////
-
-def c_near_ab(a, b, c, d):
-    line_1 = line(a, b)
-    res = d[0]*line_1[0] + d[1]*line_1[1] + line_1[2]
-    print('\n')
-    if res == 0:
-        print("Точка лежит на прямой")
-    elif res > 0:
-        print("Точка выше прямой")
-    elif res < 0:
-        print("Точка ниже прямой")
+def c_near_ab(a, b, c):
+    if a[0] == c[0]:
+        if c[1] > min(a[1], b[1]) and c[1] < max(a[1], b[1]):
+            print("Точка лежит на луче")
+        elif abs(c[1] - b[1]) < abs(c[1] - a[1]):
+            print("Точка лежит на луче")
+        else:
+            print("Точка не лежит на луче")
+    else:
+        if c[0] > min(a[0], b[0]) and c[0] < max(a[0], b[0]):
+            print("Точка лежит на луче")
+        elif abs(c[0] - b[0]) < abs(c[0] - a[0]):
+            print("Точка лежит на луче")
+        else:
+            print("Точка не лежит на луче")
 
 
 def clockwise(a, b, c):
@@ -65,19 +69,9 @@ def clockwise(a, b, c):
 
 
 def two_surface(a, b, numb):
-    a, b = list(a), list(b)
-    a[3] *= -1
-    b[3] *= -1
-    a = [i / a[0] for i in a]
-    b = [(k + j * -b[0]) for j, k in zip(a, b)]
-    b[1:] = [i / b[1] for i in b[1:]]
-    a = [(j + k * -a[1]) for j, k in zip(a, b)]
-
-    x = numb[0] * a[3] - a[2]
-    y = numb[1] * b[3] - b[2]
-    z = numb[2]
-    print('\n')
-    if x == y and y == z:
+    res_1 = a[0]*numb[0] + a[1]*numb[1] + a[2]*numb[2] + a[3]
+    res_2 = b[0]*numb[0] + b[1]*numb[1] + b[2]*numb[2] + b[3]
+    if res_1 == 0 and res_2 == 0:
         print("Принадлежит")
     else:
         print("Не принадлежит")
@@ -102,10 +96,9 @@ def main():
             print("2 task")
             a = int(input('Первая точка x = ')), int(input('y = '))
             b = int(input('Вторая точка x = ')), int(input('y = '))
-            c = int(input('Третья точка x = ')), int(input('y = '))
-            d = int(input('Наша точка x = ')), int(input('y = '))
+            c = int(input('Наша точка x = ')), int(input('y = '))
 
-            c_near_ab(a, b, c, d)
+            c_near_ab(a, b, c)
 
         elif i == 3:
             print("3 task")
@@ -125,6 +118,9 @@ def main():
 
             two_surface(a, b, c)
 
+        elif i == 5:
+            break
+
         else:
             sys.exit()
 
@@ -133,7 +129,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-# 1 задача
+1 задача
 two_lines((0, 0), (3, 3), (3, 0), (0, 3))
 two_lines((0, 0), (3, 0), (3, 3), (0, 3))
 two_lines((0, 0), (3, 0), (0, 3), (3, 1))
@@ -141,8 +137,15 @@ two_lines((0, 1), (2, 3), (2, 3), (0, 4))
 two_lines((0, 0), (3, 3), (3, 3), (0, 0))
 two_lines((0, 0), (3, 3), (0, 0), (3, 3))
 
-c_near_ab((0, 0), (3, 3), (1, 1), (3, 0)) # high
-c_near_ab((3, 3), (0, 0), (1, 1), (3, 0)) # low
+c_near_ab((0, 0), (1, 1), (2, 2))
+c_near_ab((1, 1), (0, 0), (2, 2))
+c_near_ab((1, 1), (3, 3), (2, 2))
+c_near_ab((3, 3), (1, 1), (2, 2))
+c_near_ab((2, 2), (3, 3), (1, 1))
+
+c_near_ab((1, 0), (1, 2), (1, 1))
+c_near_ab((1, 0), (1, 2), (1, 3))
+c_near_ab((1, 0), (1, 2), (1, -3))
 
 clockwise((0, 0, 3), (3, 1, 0), (4, 4, 4)) # против часовой
 clockwise((0, 0, 3), (4, 4, 4), (3, 1, 0)) # против часовой
