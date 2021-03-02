@@ -13,7 +13,6 @@ t.hideturtle()
 
 
 class Hands:
-    
     def __init__(self, pensize, color, unit_angle, leng):
         self.pensize = pensize
         self.color = color
