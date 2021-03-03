@@ -19,6 +19,8 @@ t = Turtle()
 lst_point = [(250.00, 350.00, 1), (308.78, 330.90, 1), (345.11, 280.90, 1), (345.11, 219.10, 1), (308.78, 169.10, 1),\
             (250.00, 150.00, 1), (191.22, 169.10, 1), (154.89, 219.10, 1), (154.89, 280.90, 1), (191.22, 330.90, 1)]
 
+temp_point = [[250.00, 350.00, 1], [308.78, 330.90, 1], [345.11, 280.90, 1], [345.11, 219.10, 1], [308.78, 169.10, 1],\
+            [250.00, 150.00, 1], [191.22, 169.10, 1], [154.89, 219.10, 1], [154.89, 280.90, 1], [191.22, 330.90, 1]]
 
 def draw_coord():
     cor = Turtle()
@@ -58,44 +60,44 @@ def mul_martic(a_, b_):
 def shift_figure(check, c):
     tmp_lst = []
     if check == 1:
-        for i in lst_point:
+        for i in temp_point:
             tmp_lst.append(mul_martic([[1, 0, c], [0, 1, 0], [0, 0, 1]], i))
     elif check == 2:
-        for i in lst_point:
+        for i in temp_point:
             tmp_lst.append(mul_martic([[1, 0, 0], [0, 1, c], [0, 0, 1]], i))
     else:
         print("Не то число")
-        return lst_point
+        return temp_point
 
     return tmp_lst
 
 
 def mirror_figure(check):
     if check == 1:
-        tmp_lst = mul_martic(lst_point, [[-1, 0, 0], [0, 1, 0], [0, 0, 1]])
+        tmp_lst = mul_martic(temp_point, [[-1, 0, 0], [0, 1, 0], [0, 0, 1]])
     elif check == 2:
-        tmp_lst = mul_martic(lst_point, [[1, 0, 0], [0, -1, 0], [0, 0, 1]])
+        tmp_lst = mul_martic(temp_point, [[1, 0, 0], [0, -1, 0], [0, 0, 1]])
     else:
         print("Не то число")
-        return lst_point
+        return temp_point
 
     return tmp_lst
 
 
 def mirror_line_figure():
-    return mul_martic(lst_point, [[0, 1, 0], [1, 0, 0], [0, 0, 1]])
+    return mul_martic(temp_point, [[0, 1, 0], [1, 0, 0], [0, 0, 1]])
 
 
 def scale_figure(check, ind):
     if check == 1:
-        tmp_lst = mul_martic(lst_point, [[ind, 0, 0], [0, 1, 0], [0, 0, 1]])
+        tmp_lst = mul_martic(temp_point, [[ind, 0, 0], [0, 1, 0], [0, 0, 1]])
     elif check == 2:
-        tmp_lst = mul_martic(lst_point, [[1, 0, 0], [0, ind, 0], [0, 0, 1]])
+        tmp_lst = mul_martic(temp_point, [[1, 0, 0], [0, ind, 0], [0, 0, 1]])
     elif check == 3:
-        tmp_lst = mul_martic(lst_point, [[ind, 0, 0], [0, ind, 0], [0, 0, 1]])
+        tmp_lst = mul_martic(temp_point, [[ind, 0, 0], [0, ind, 0], [0, 0, 1]])
     else:
         print("Не то число")
-        return lst_point
+        return temp_point
 
     return tmp_lst
 
@@ -103,7 +105,7 @@ def scale_figure(check, ind):
 def rotate_figure(angle):
     angle = radians(angle)
 
-    return mul_martic(lst_point, [[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])
+    return mul_martic(temp_point, [[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])
 
 
 def rotate_near_figure(angle, point):
@@ -113,7 +115,7 @@ def rotate_near_figure(angle, point):
     res = mul_martic(res, [[1, 0, -point[0]], [0, 1, -point[1]], [0, 0, 1]])
 
     tmp_lst = []
-    for i in lst_point:
+    for i in temp_point:
         tmp_lst.append(mul_martic(res, i))
 
     return tmp_lst
@@ -125,6 +127,8 @@ def rotate_near_figure(angle, point):
 def main():
     t.screen.setup(1200, 1000)
     t.screen.title("Welcome to the lab 2!")
+
+    global temp_point
 
     t.speed(0)
     t.hideturtle()
@@ -155,34 +159,42 @@ def main():
 
         elif n == 1:
             c = float(input("На сколько сдвиг? \n"))
-            draw_figure(shift_figure(1, c))
+            temp_point = shift_figure(1, c)
+            draw_figure(temp_point)
 
         elif n == 2:
             c = float(input("На сколько сдвиг? \n"))
-            draw_figure(shift_figure(2, c))
+            temp_point = shift_figure(2, c)
+            draw_figure(temp_point)
 
         elif n == 3:
-            draw_figure(mirror_figure(1))
+            temp_point = mirror_figure(1)
+            draw_figure(temp_point)
 
         elif n == 4:
-            draw_figure(mirror_figure(2))
+            temp_point = mirror_figure(2)
+            draw_figure(temp_point)
 
         elif n == 5:
-            draw_figure(mirror_line_figure())
+            temp_point = mirror_line_figure()
+            draw_figure(temp_point)
 
         elif n == 6:
             k = float(input("По какой оси? (x, y, xy) (1, 2, 3) \n"))
             c = float(input("Какой коэффициент? \n"))
-            draw_figure(scale_figure(k, c))
+            temp_point = scale_figure(k, c)
+            draw_figure(temp_point)
 
         elif n == 7:
             c = float(input("Какой угол поворота? \n"))
-            draw_figure(rotate_figure(c))
+            temp_point = rotate_figure(c)
+            draw_figure(temp_point)
 
         elif n == 8:
             c = float(input("Какой угол поворота? \n"))
             p = [float(i) for i in input("Какая точка? \n").split()]
-            draw_figure(rotate_near_figure(c, p))
+            temp_point = rotate_near_figure(c, p)
+            draw_figure(temp_point)
 
         else:
             print("bye-bye")
