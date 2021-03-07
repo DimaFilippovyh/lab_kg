@@ -156,6 +156,7 @@ def main():
 
         if n == 0:
             draw_figure(lst_point)
+            temp_point = lst_point
 
         elif n == 1:
             c = float(input("На сколько сдвиг? \n"))
